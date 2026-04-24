@@ -1,0 +1,36 @@
+# macOS
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*~
+
+# Logs
+*.log
+npm-debug.log*
+
+# Node (if we ever add a build step)
+node_modules/
+
+# Netlify
+.netlify/
+
+# Build artefacts / temp
+*.zip
+/tmp/
+
+# Unused intermediate image files (keep repo lean)
+images/logo-transparent.png
+images/logo-web.png
+images/logo-mark.png
+images/mark-raw.png
+images/mark-square.png
+images/power-wash-02.jpeg
+images/power-wash-logo.jpeg
+favicon.png
+favicon-64.png

@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Meadows Powerwashing — Driveways, Sidewalks & Walkways in Northern Virginia</title>
+<meta name="description" content="Professional residential power washing in Northern Virginia. Driveways, sidewalks, walkways, patios, decks and more. Free quotes. Text 571-230-7746." />
+<meta name="theme-color" content="#0c4a6e" />
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
+<link rel="icon" type="image/png" sizes="192x192" href="favicon-192.png" />
+<link rel="icon" type="image/png" sizes="512x512" href="favicon-512.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+
+<!-- Open Graph / Social -->
+<meta property="og:title" content="Meadows Powerwashing — Northern Virginia" />
+<meta property="og:description" content="Driveways, sidewalks, walkways, patios and more. Free quotes. Local, reliable, and fully insured." />
+<meta property="og:image" content="og-image.jpg" />
+<meta property="og:type" content="website" />
+
+<!-- Local Business Schema (good for Google) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "Meadows Powerwashing",
+  "image": "og-image.jpg",
+  "telephone": "+1-571-230-7746",
+  "email": "eoinmeadows@icloud.com",
+  "areaServed": "Northern Virginia",
+  "priceRange": "$$",
+  "description": "Residential power washing specialists. Driveways, sidewalks, walkways, patios, decks and fences.",
+  "openingHours": "Mo-Sa 08:00-19:00"
+}
+</script>
+
+<style>
+  :root {
+    --bg: #f7fafc;
+    --surface: #ffffff;
+    --ink: #0b1220;
+    --ink-soft: #334155;
+    --muted: #64748b;
+    --line: #e2e8f0;
+    --brand: #0c4a6e;
+    --brand-2: #0369a1;
+    --accent: #38bdf8;
+    --accent-soft: #e0f2fe;
+    --warn: #f59e0b;
+    --success: #16a34a;
+    --shadow: 0 4px 14px rgba(12, 74, 110, 0.08);
+    --shadow-lg: 0 10px 30px rgba(12, 74, 110, 0.15);
+    --radius: 14px;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--ink);
+    background: var(--bg);
+    -webkit-font-smoothing: antialiased;
+  }
+  img { max-width: 100%; display: block; }
+  a { color: var(--brand-2); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  .container { max-width: 1120px; margin: 0 auto; padding: 0 20px; }
+
+  /* ---------- Top announcement ---------- */
+  .topbar {
+    background: var(--brand);
+    color: #fff;
+    font-size: 14px;
+    text-align: center;
+    padding: 8px 12px;
+  }
+  .topbar a { color: #fff; font-weight: 600; text-decoration: underline; }
+
+  /* ---------- Nav ---------- */
+  nav {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: saturate(150%) blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-inner {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 20px; max-width: 1120px; margin: 0 auto;
+  }
+  .logo { display: flex; align-items: center; gap: 10px; }
+  .logo img { height: 44px; width: auto; display: block; }
+  @media (max-width: 420px) {
+    .logo img { height: 38px; }
+  }
+  .nav-links { display: none; gap: 22px; }
+  .nav-links a { color: var(--ink-soft); font-weight: 500; font-size: 15px; }
+  .nav-cta { display: inline-flex; gap: 8px; }
+  @media (min-width: 900px) {
+    .nav-links { display: flex; }
+  }
+
+  /* ---------- Buttons ---------- */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    padding: 12px 18px; border-radius: 999px; border: 0; cursor: pointer;
+    font-weight: 700; font-size: 15px; text-decoration: none;
+    transition: transform .1s ease, box-shadow .2s ease, background .2s ease;
+    white-space: nowrap;
+  }
+  .btn:hover { text-decoration: none; transform: translateY(-1px); }
+  .btn-primary { background: var(--brand); color: #fff; box-shadow: var(--shadow); }
+  .btn-primary:hover { background: #0b3b57; }
+  .btn-accent { background: var(--accent); color: var(--brand); box-shadow: var(--shadow); }
+  .btn-accent:hover { background: #7dd3fc; }
+  .btn-outline { background: #fff; color: var(--brand); border: 2px solid var(--brand); }
+  .btn-ghost { background: transparent; color: var(--brand); }
+  .btn-sm { padding: 9px 14px; font-size: 14px; }
+  .btn svg { width: 18px; height: 18px; }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    padding: 48px 0 40px;
+    background:
+      radial-gradient(1000px 400px at 10% -10%, #e0f2fe 0%, transparent 60%),
+      radial-gradient(800px 400px at 90% 10%, #dbeafe 0%, transparent 50%);
+  }
+  .hero-grid {
+    display: grid; grid-template-columns: 1fr; gap: 32px; align-items: center;
+  }
+  @media (min-width: 900px) {
+    .hero-grid { grid-template-columns: 1.05fr 1fr; gap: 48px; }
+  }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--accent-soft); color: var(--brand);
+    padding: 6px 12px; border-radius: 999px; font-size: 13px; font-weight: 600;
+    margin-bottom: 16px;
+  }
+  h1 {
+    font-size: clamp(34px, 5.2vw, 54px); line-height: 1.08; margin: 0 0 16px;
+    letter-spacing: -0.02em; color: var(--ink);
+  }
+  h1 .highlight { color: var(--brand); white-space: nowrap; }
+  .lede { font-size: 18px; color: var(--ink-soft); max-width: 540px; margin: 0 0 24px; }
+  .hero-cta { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 24px; }
+  .trust-row {
+    display: flex; flex-wrap: wrap; gap: 22px; color: var(--ink-soft);
+    font-size: 14px; align-items: center;
+  }
+  .trust-row div { display: flex; align-items: center; gap: 6px; }
+  .trust-row svg { width: 16px; height: 16px; color: var(--success); }
+
+  /* ---------- Before/After slider ---------- */
+  .ba-wrap {
+    position: relative; border-radius: var(--radius); overflow: hidden;
+    box-shadow: var(--shadow-lg); aspect-ratio: 4/5; max-height: 560px;
+    user-select: none; -webkit-user-select: none;
+    background: #000;
+  }
+  .ba-wrap img {
+    position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+    pointer-events: none;
+  }
+  .ba-after { clip-path: inset(0 0 0 50%); transition: clip-path .08s linear; }
+  .ba-handle {
+    position: absolute; top: 0; bottom: 0; left: 50%;
+    width: 3px; background: #fff; transform: translateX(-50%);
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.1);
+    pointer-events: none;
+  }
+  .ba-knob {
+    position: absolute; left: 50%; top: 50%;
+    transform: translate(-50%, -50%);
+    width: 44px; height: 44px; border-radius: 50%;
+    background: #fff; box-shadow: var(--shadow);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--brand); pointer-events: none;
+  }
+  .ba-knob svg { width: 22px; height: 22px; }
+  .ba-label {
+    position: absolute; top: 14px;
+    color: #fff; background: rgba(0,0,0,0.55); backdrop-filter: blur(4px);
+    padding: 6px 12px; border-radius: 999px; font-size: 12px; font-weight: 700;
+    letter-spacing: 0.08em; text-transform: uppercase;
+  }
+  .ba-label.before { left: 14px; }
+  .ba-label.after { right: 14px; }
+  .ba-input {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    opacity: 0; cursor: ew-resize;
+  }
+  .ba-hint {
+    position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%);
+    background: rgba(255,255,255,0.92); color: var(--brand); font-size: 12px;
+    padding: 6px 12px; border-radius: 999px; font-weight: 600;
+    pointer-events: none;
+  }
+
+  /* ---------- Section ---------- */
+  section { padding: 64px 0; }
+  section h2 {
+    font-size: clamp(26px, 3.5vw, 36px); margin: 0 0 14px; letter-spacing: -0.02em;
+    color: var(--ink);
+  }
+  .section-lede { max-width: 640px; color: var(--ink-soft); margin: 0 0 32px; }
+
+  /* ---------- Services ---------- */
+  .services-grid {
+    display: grid; grid-template-columns: 1fr; gap: 16px;
+  }
+  @media (min-width: 640px) { .services-grid { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 960px) { .services-grid { grid-template-columns: 1fr 1fr 1fr; } }
+  .service-card {
+    background: var(--surface); border-radius: var(--radius); padding: 24px;
+    border: 1px solid var(--line); transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .service-card:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+  .service-icon {
+    width: 44px; height: 44px; border-radius: 12px;
+    background: var(--accent-soft); color: var(--brand);
+    display: flex; align-items: center; justify-content: center; margin-bottom: 14px;
+  }
+  .service-icon svg { width: 24px; height: 24px; }
+  .service-card h3 { margin: 0 0 6px; font-size: 18px; }
+  .service-card p { margin: 0; color: var(--ink-soft); font-size: 15px; }
+
+  /* ---------- Gallery ---------- */
+  .gallery {
+    background: var(--surface); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+  }
+  .gallery-grid { display: grid; grid-template-columns: 1fr; gap: 32px; }
+  @media (min-width: 800px) { .gallery-grid { grid-template-columns: 1fr 1fr; } }
+  .gallery-item h3 {
+    margin: 16px 0 4px; font-size: 18px; display: flex; align-items: center; gap: 10px;
+  }
+  .tag {
+    display: inline-block; background: var(--accent-soft); color: var(--brand);
+    padding: 3px 10px; border-radius: 999px; font-size: 12px; font-weight: 700; letter-spacing: 0.04em;
+  }
+
+  /* ---------- Why us ---------- */
+  .why-grid {
+    display: grid; grid-template-columns: 1fr; gap: 18px;
+  }
+  @media (min-width: 700px) { .why-grid { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 980px) { .why-grid { grid-template-columns: 1fr 1fr 1fr 1fr; } }
+  .why-item {
+    background: var(--surface); padding: 22px; border-radius: var(--radius);
+    border: 1px solid var(--line);
+  }
+  .why-item .num { font-size: 30px; font-weight: 800; color: var(--brand); margin-bottom: 4px; }
+  .why-item h3 { margin: 0 0 4px; font-size: 16px; }
+  .why-item p { margin: 0; color: var(--ink-soft); font-size: 14px; }
+
+  /* ---------- Booking form ---------- */
+  .booking {
+    background: linear-gradient(180deg, #eff6ff 0%, #f7fafc 100%);
+    border-top: 1px solid var(--line);
+  }
+  .booking-grid {
+    display: grid; grid-template-columns: 1fr; gap: 32px;
+  }
+  @media (min-width: 900px) { .booking-grid { grid-template-columns: 1fr 1.1fr; } }
+
+  .form-card {
+    background: #fff; border-radius: var(--radius); border: 1px solid var(--line);
+    padding: 28px; box-shadow: var(--shadow);
+  }
+  .form-row { display: grid; grid-template-columns: 1fr; gap: 14px; margin-bottom: 14px; }
+  @media (min-width: 560px) { .form-row.two { grid-template-columns: 1fr 1fr; } }
+  label {
+    display: block; font-weight: 600; color: var(--ink); font-size: 14px; margin-bottom: 6px;
+  }
+  input, select, textarea {
+    width: 100%; padding: 12px 14px; border: 1px solid var(--line); border-radius: 10px;
+    font: inherit; color: var(--ink); background: #fff; transition: border-color .15s;
+  }
+  input:focus, select:focus, textarea:focus {
+    outline: none; border-color: var(--brand-2); box-shadow: 0 0 0 3px rgba(3,105,161,0.15);
+  }
+  textarea { min-height: 110px; resize: vertical; }
+  .form-note { font-size: 13px; color: var(--muted); margin-top: 10px; }
+  .honeypot { position: absolute; left: -9999px; opacity: 0; }
+
+  /* Alt contact */
+  .alt-contact {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 18px;
+  }
+  .alt-contact .btn { width: 100%; }
+
+  /* ---------- FAQ ---------- */
+  details.faq {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
+    padding: 16px 20px; margin-bottom: 10px;
+  }
+  details.faq[open] { border-color: var(--brand-2); }
+  details.faq summary {
+    cursor: pointer; font-weight: 600; color: var(--ink); list-style: none;
+    display: flex; justify-content: space-between; align-items: center; gap: 12px;
+  }
+  details.faq summary::-webkit-details-marker { display: none; }
+  details.faq summary::after {
+    content: "+"; font-size: 22px; color: var(--brand); font-weight: 400; line-height: 1;
+  }
+  details.faq[open] summary::after { content: "−"; }
+  details.faq p { margin: 10px 0 0; color: var(--ink-soft); }
+
+  /* ---------- Service area ---------- */
+  .area-card {
+    background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 24px; display: grid; grid-template-columns: 1fr; gap: 18px;
+  }
+  @media (min-width: 720px) { .area-card { grid-template-columns: 1.1fr 1fr; } }
+  .area-card ul { columns: 2; margin: 0; padding-left: 18px; color: var(--ink-soft); }
+  .area-card li { margin-bottom: 4px; }
+
+  /* ---------- Footer ---------- */
+  footer {
+    background: var(--brand); color: #e0f2fe; padding: 40px 0 28px;
+  }
+  footer a { color: #fff; }
+  .footer-grid {
+    display: grid; grid-template-columns: 1fr; gap: 24px;
+  }
+  @media (min-width: 720px) { .footer-grid { grid-template-columns: 1.3fr 1fr 1fr; } }
+  .footer h4 { color: #fff; margin: 0 0 10px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.06em; }
+  .footer-bottom {
+    margin-top: 28px; padding-top: 18px; border-top: 1px solid rgba(255,255,255,0.15);
+    font-size: 13px; color: rgba(224,242,254,0.8); text-align: center;
+  }
+
+  /* Sticky mobile CTA */
+  .mobile-cta {
+    position: fixed; left: 10px; right: 10px; bottom: 10px; z-index: 40;
+    display: flex; gap: 8px;
+    background: rgba(12,74,110,0.96); padding: 10px; border-radius: 14px;
+    box-shadow: var(--shadow-lg);
+  }
+  .mobile-cta .btn { flex: 1; }
+  @media (min-width: 760px) { .mobile-cta { display: none; } }
+
+  /* Success / thank you state */
+  .thanks { display: none; }
+  .thanks.show { display: block; }
+  .form-card.sent form { display: none; }
+  .form-card.sent .thanks { display: block; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <strong>Spring special:</strong> mention this site for a free walkway cleaning with any driveway wash ·
+  <a href="tel:+15712307746">Text 571-230-7746</a>
+</div>
+
+<nav>
+  <div class="nav-inner">
+    <a href="#top" class="logo" aria-label="Meadows Powerwashing home">
+      <img src="images/logo.png" alt="Meadows Powerwashing" />
+    </a>
+    <div class="nav-links" aria-label="Primary">
+      <a href="#services">Services</a>
+      <a href="#gallery">Before &amp; After</a>
+      <a href="#about">About</a>
+      <a href="#area">Service area</a>
+      <a href="#faq">FAQ</a>
+    </div>
+    <div class="nav-cta">
+      <a class="btn btn-primary btn-sm" href="#book">Book now</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ========== HERO ========== -->
+<header id="top" class="hero">
+  <div class="container hero-grid">
+    <div>
+      <span class="eyebrow">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.39 7.36H22l-6.2 4.5 2.39 7.36L12 16.72l-6.19 4.5 2.39-7.36L2 9.36h7.61z"/></svg>
+        Local · Reliable · Free Quotes
+      </span>
+      <h1>Your concrete, <span class="highlight">like new.</span><br/>Cleaned the right way.</h1>
+      <p class="lede">
+        Residential power washing across Northern Virginia. We specialize in
+        driveways, sidewalks and walkways &mdash; with patios, decks and fences available on request.
+        Book online or shoot us a text.
+      </p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#book">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 4h-1V2h-2v2H8V2H6v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 16H5V10h14v10z"/></svg>
+          Get a free quote
+        </a>
+        <a class="btn btn-accent" href="sms:+15712307746?&amp;body=Hi%20Meadows%20Powerwashing%2C%20I%27d%20like%20a%20quote.%20My%20address%20is%3A%20">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4a2 2 0 0 0-2 2v18l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z"/></svg>
+          Text us now
+        </a>
+      </div>
+      <div class="trust-row">
+        <div><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg> Free, no-obligation quotes</div>
+        <div><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg> Eco-friendly cleaning</div>
+        <div><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z"/></svg> Text-first communication</div>
+      </div>
+    </div>
+
+    <!-- Before/After slider -->
+    <div class="ba-wrap" id="ba-wrap" aria-label="Before and after comparison of a power-washed driveway">
+      <img class="ba-before" src="images/driveway-before.jpg" alt="Driveway before power washing — stained concrete" />
+      <img class="ba-after" id="ba-after" src="images/driveway-after.jpg" alt="Driveway after power washing — clean concrete" />
+      <div class="ba-label before">Before</div>
+      <div class="ba-label after">After</div>
+      <div class="ba-handle" id="ba-handle"></div>
+      <div class="ba-knob" id="ba-knob" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l-5-7zm8 0v14l5-7z"/></svg>
+      </div>
+      <div class="ba-hint">← Drag to compare →</div>
+      <input class="ba-input" id="ba-input" type="range" min="0" max="100" value="50" aria-label="Reveal after image" />
+    </div>
+  </div>
+</header>
+
+<!-- ========== SERVICES ========== -->
+<section id="services">
+  <div class="container">
+    <h2>What we clean</h2>
+    <p class="section-lede">Soft-wash on surfaces that need a gentle touch, high-pressure where it counts. No streaks, no damaged mortar, no killed plants.</p>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 6h18v3H3zM3 10.5h18v3H3zM3 15h18v3H3z"/></svg>
+        </div>
+        <h3>Driveways</h3>
+        <p>Oil stains, tire marks, algae and ground-in grime. The biggest curb-appeal win on most homes.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 4h16v2H4zm0 6h16v2H4zm0 6h16v2H4z"/></svg>
+        </div>
+        <h3>Sidewalks</h3>
+        <p>Public-facing concrete that gets dingy fast. We brighten every panel without etching.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 11l9-7 9 7v10H3z"/></svg>
+        </div>
+        <h3>Walkways</h3>
+        <p>Pavers, stamped concrete, stepping stones &mdash; clean joints and restored color.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 3h18v4H3zm0 7h18v4H3zm0 7h18v4H3z"/></svg>
+        </div>
+        <h3>Patios &amp; Decks</h3>
+        <p>Wood, composite, flagstone and concrete. We adjust pressure to match the material.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 4h2v16H4zm4 0h2v16H8zm4 0h2v16h-2zm4 0h2v16h-2zm4 0h2v16h-2z"/></svg>
+        </div>
+        <h3>Fences</h3>
+        <p>Vinyl, wood and composite. Strip mildew, restore grain, prep for seal or stain.</p>
+      </div>
+      <div class="service-card">
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 8h16v8H4zm3-5h10v3H7zM6 18h12v3H6z"/></svg>
+        </div>
+        <h3>Other surfaces</h3>
+        <p>Retaining walls, stoops, garage floors, dumpster pads and more &mdash; just ask.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== GALLERY ========== -->
+<section id="gallery" class="gallery">
+  <div class="container">
+    <h2>Real jobs, real results</h2>
+    <p class="section-lede">Here's a recent home in the neighborhood. Same afternoon, dramatic difference.</p>
+    <div class="gallery-grid" id="gallery-grid">
+      <div class="gallery-item">
+        <div class="ba-wrap" style="aspect-ratio: 4/5;">
+          <img class="ba-before" src="images/walkway-before.jpg" alt="Walkway before — dingy concrete panels" />
+          <img class="ba-after ba-after-2" src="images/walkway-after.jpg" alt="Walkway after — bright clean panels" />
+          <div class="ba-label before">Before</div>
+          <div class="ba-label after">After</div>
+          <div class="ba-handle" data-handle="2"></div>
+          <div class="ba-knob"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l-5-7zm8 0v14l5-7z"/></svg></div>
+          <input class="ba-input" type="range" min="0" max="100" value="50" data-target="2" aria-label="Reveal walkway after image" />
+        </div>
+        <h3>Front walkway <span class="tag">Residential</span></h3>
+        <p style="color:var(--ink-soft);margin:4px 0 0">Painted-looking concrete panels restored to their original light gray in a single pass.</p>
+      </div>
+      <div class="gallery-item">
+        <div class="ba-wrap" style="aspect-ratio: 4/5;">
+          <img class="ba-before" src="images/driveway-before.jpg" alt="Driveway before — oil and algae staining" />
+          <img class="ba-after ba-after-3" src="images/driveway-after.jpg" alt="Driveway after — even, bright concrete" />
+          <div class="ba-label before">Before</div>
+          <div class="ba-label after">After</div>
+          <div class="ba-handle" data-handle="3"></div>
+          <div class="ba-knob"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l-5-7zm8 0v14l5-7z"/></svg></div>
+          <input class="ba-input" type="range" min="0" max="100" value="50" data-target="3" aria-label="Reveal driveway after image" />
+        </div>
+        <h3>Two-car driveway <span class="tag">Residential</span></h3>
+        <p style="color:var(--ink-soft);margin:4px 0 0">Heavy oxidation and algae lifted without damaging the surface or surrounding mulch beds.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== WHY US ========== -->
+<section>
+  <div class="container">
+    <h2>Why homeowners pick Meadows</h2>
+    <p class="section-lede">We're a small, local, family-run operation. Every job gets the same care whether it's a single walkway or a full driveway plus patio.</p>
+    <div class="why-grid">
+      <div class="why-item">
+        <div class="num">1.</div>
+        <h3>Local &amp; responsive</h3>
+        <p>Based in Northern Virginia. Texts answered same day, most quotes within an hour.</p>
+      </div>
+      <div class="why-item">
+        <div class="num">2.</div>
+        <h3>Right pressure, right surface</h3>
+        <p>We use soft-wash techniques where needed to avoid etched concrete and damaged siding.</p>
+      </div>
+      <div class="why-item">
+        <div class="num">3.</div>
+        <h3>Plant-safe, pet-safe</h3>
+        <p>Biodegradable detergents. We pre-wet landscaping and rinse thoroughly when we're done.</p>
+      </div>
+      <div class="why-item">
+        <div class="num">4.</div>
+        <h3>Transparent pricing</h3>
+        <p>Flat-rate quotes based on square footage. No surprise fees, no door-to-door upsells.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== ABOUT / MEET ========== -->
+<section id="about" style="background: var(--surface); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);">
+  <div class="container" style="display: grid; grid-template-columns: 1fr; gap: 36px; align-items: center;">
+    <style>
+      @media (min-width: 880px) {
+        #about .container { grid-template-columns: 1fr 1fr !important; gap: 56px !important; }
+      }
+      #about .shot-wrap {
+        position: relative; border-radius: var(--radius); overflow: hidden;
+        box-shadow: var(--shadow-lg); aspect-ratio: 4/3;
+      }
+      #about .shot-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
+      #about .shot-badge {
+        position: absolute; left: 16px; bottom: 16px;
+        background: rgba(255,255,255,0.95); backdrop-filter: blur(6px);
+        color: var(--brand); font-weight: 700; font-size: 13px;
+        padding: 8px 14px; border-radius: 999px;
+        display: inline-flex; align-items: center; gap: 8px;
+      }
+      #about .shot-badge::before {
+        content: ""; width: 8px; height: 8px; border-radius: 50%;
+        background: var(--success); box-shadow: 0 0 0 4px rgba(22,163,74,0.18);
+      }
+    </style>
+    <div class="shot-wrap">
+      <img src="images/action-shot.jpg" alt="Meadows Powerwashing crew pressure-washing a residential driveway" loading="lazy" />
+      <span class="shot-badge">On the job · Northern VA</span>
+    </div>
+    <div>
+      <span class="eyebrow">About us</span>
+      <h2>A local, student-run crew that actually shows up.</h2>
+      <p style="color: var(--ink-soft); font-size: 17px; margin: 12px 0 20px">
+        Meadows Powerwashing is a small, family-run operation serving the neighborhoods
+        we grew up in. No call centers, no pushy salespeople &mdash; just careful work,
+        fair pricing, and a text when we're on the way.
+      </p>
+      <div class="why-grid" style="grid-template-columns: 1fr 1fr;">
+        <div class="why-item" style="padding: 16px">
+          <div class="num" style="font-size: 22px">✓</div>
+          <h3>Commercial-grade gear</h3>
+          <p>Honda-powered 3,000+ PSI pressure washers and surface cleaners for even, streak-free results.</p>
+        </div>
+        <div class="why-item" style="padding: 16px">
+          <div class="num" style="font-size: 22px">✓</div>
+          <h3>Careful around your home</h3>
+          <p>Shoe covers near entryways, plants pre-wet and rinsed, job site left spotless.</p>
+        </div>
+        <div class="why-item" style="padding: 16px">
+          <div class="num" style="font-size: 22px">✓</div>
+          <h3>Same-week scheduling</h3>
+          <p>Book today, cleaned this week in most cases during spring and summer.</p>
+        </div>
+        <div class="why-item" style="padding: 16px">
+          <div class="num" style="font-size: 22px">✓</div>
+          <h3>Photos before &amp; after</h3>
+          <p>You get before/after shots sent to your phone after every job &mdash; great for sharing.</p>
+        </div>
+      </div>
+      <a href="#book" class="btn btn-primary" style="margin-top: 22px">Get your free quote</a>
+    </div>
+  </div>
+</section>
+
+<!-- ========== BOOKING ========== -->
+<section id="book" class="booking">
+  <div class="container booking-grid">
+    <div>
+      <h2>Book your free quote</h2>
+      <p class="section-lede">
+        Tell us a little about the job and we'll get back to you with a quote &mdash; usually within an hour during business hours.
+        Prefer to text? Message <a href="sms:+15712307746">571-230-7746</a>.
+      </p>
+      <div class="area-card" style="margin-top:8px">
+        <div>
+          <h3 style="margin-top:0">How it works</h3>
+          <ol style="padding-left:18px; color:var(--ink-soft)">
+            <li>Fill out the form (takes about a minute).</li>
+            <li>We confirm details and send a flat-rate quote.</li>
+            <li>You pick a date; we show up, clean, and rinse.</li>
+            <li>Pay after the job &mdash; Venmo, Zelle, cash or check.</li>
+          </ol>
+        </div>
+        <div>
+          <h3 style="margin-top:0">Hours</h3>
+          <p style="color:var(--ink-soft); margin:0 0 10px">Mon&ndash;Sat · 8 AM to 7 PM</p>
+          <h3 style="margin-top:8px">Contact</h3>
+          <p style="color:var(--ink-soft); margin:0">
+            <a href="tel:+15712307746">571-230-7746</a><br/>
+            <a href="mailto:eoinmeadows@icloud.com">eoinmeadows@icloud.com</a>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-card" id="form-card">
+      <!-- Netlify Forms: data-netlify="true" + name makes Netlify auto-capture submissions.
+           netlify-honeypot="bot-field" enables bot trap.
+           action="/?submitted=true" keeps the user on the page and triggers our thank-you state. -->
+      <form id="book-form" name="booking" method="POST" action="/?submitted=true"
+            data-netlify="true" netlify-honeypot="bot-field">
+        <input type="hidden" name="form-name" value="booking" />
+        <!-- Honeypot (anti-spam) -->
+        <div class="honeypot" aria-hidden="true">
+          <label>Do not fill<input type="text" name="bot-field" tabindex="-1" autocomplete="off" /></label>
+        </div>
+
+        <div class="form-row two">
+          <div>
+            <label for="f-name">Your name</label>
+            <input id="f-name" name="name" type="text" required autocomplete="name" />
+          </div>
+          <div>
+            <label for="f-phone">Cell phone</label>
+            <input id="f-phone" name="phone" type="tel" required autocomplete="tel" placeholder="(555) 123-4567" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div>
+            <label for="f-email">Email</label>
+            <input id="f-email" name="email" type="email" required autocomplete="email" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div>
+            <label for="f-address">Service address</label>
+            <input id="f-address" name="address" type="text" required autocomplete="street-address" placeholder="Street, city, ZIP" />
+          </div>
+        </div>
+        <div class="form-row two">
+          <div>
+            <label for="f-service">What needs cleaning?</label>
+            <select id="f-service" name="service" required>
+              <option value="">Choose a service…</option>
+              <option>Driveway</option>
+              <option>Sidewalk</option>
+              <option>Walkway</option>
+              <option>Patio / Deck</option>
+              <option>Fence</option>
+              <option>Driveway + walkway (bundle)</option>
+              <option>Other / not sure</option>
+            </select>
+          </div>
+          <div>
+            <label for="f-date">Preferred date</label>
+            <input id="f-date" name="preferred_date" type="date" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div>
+            <label for="f-notes">Anything else? (photos welcome via text after you submit)</label>
+            <textarea id="f-notes" name="notes" placeholder="E.g., approximate square footage, stains, tight access, gate code…"></textarea>
+          </div>
+        </div>
+        <button class="btn btn-primary" type="submit" style="width:100%; padding:14px">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg>
+          Request my free quote
+        </button>
+        <p class="form-note">By submitting, you agree to be contacted by text, call or email about this request. No marketing spam.</p>
+      </form>
+
+      <div class="thanks">
+        <div style="text-align:center; padding: 20px 0">
+          <div style="font-size:42px">✅</div>
+          <h3 style="margin:10px 0 4px">Got it &mdash; we'll be in touch!</h3>
+          <p style="color:var(--ink-soft); margin:0 0 18px">We usually respond by text within an hour during business hours.</p>
+          <a class="btn btn-accent" href="sms:+15712307746">Text us a photo of the area</a>
+        </div>
+      </div>
+
+      <div class="alt-contact">
+        <a class="btn btn-outline" href="tel:+15712307746">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.5.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.4c.6 0 1 .4 1 1 0 1.3.2 2.4.6 3.5.1.3 0 .7-.2 1z"/></svg>
+          Call
+        </a>
+        <a class="btn btn-outline" href="sms:+15712307746">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4a2 2 0 0 0-2 2v18l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z"/></svg>
+          Text
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== SERVICE AREA ========== -->
+<section id="area">
+  <div class="container">
+    <h2>Service area</h2>
+    <p class="section-lede">We're based in Northern Virginia and happy to travel anywhere within roughly 20 miles. If you're on the edge, just ask &mdash; we'll let you know.</p>
+    <div class="area-card">
+      <div>
+        <h3 style="margin-top:0">Towns we regularly serve</h3>
+        <ul>
+          <li>Fairfax</li>
+          <li>Vienna</li>
+          <li>Oakton</li>
+          <li>Reston</li>
+          <li>Herndon</li>
+          <li>McLean</li>
+          <li>Falls Church</li>
+          <li>Arlington</li>
+          <li>Alexandria</li>
+          <li>Burke</li>
+          <li>Springfield</li>
+          <li>Centreville</li>
+          <li>Chantilly</li>
+          <li>Ashburn</li>
+          <li>Leesburg</li>
+          <li>Great Falls</li>
+        </ul>
+      </div>
+      <div>
+        <h3 style="margin-top:0">Not on the list?</h3>
+        <p style="color:var(--ink-soft); margin:0 0 12px">Text your address to <a href="sms:+15712307746">571-230-7746</a> and we'll confirm same day.</p>
+        <a class="btn btn-primary btn-sm" href="#book">Check availability</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== FAQ ========== -->
+<section id="faq" style="background: var(--surface); border-top:1px solid var(--line); border-bottom:1px solid var(--line)">
+  <div class="container">
+    <h2>Frequently asked</h2>
+    <p class="section-lede">Short answers. Text us if you don't see your question here.</p>
+    <details class="faq">
+      <summary>How much does a driveway cost?</summary>
+      <p>Most residential driveways run between $120 and $250 depending on size, condition and access. Oil-stained or heavily algae-covered surfaces take longer and are quoted a little higher. We always send a flat-rate quote before we start &mdash; no surprises.</p>
+    </details>
+    <details class="faq">
+      <summary>How long does a job take?</summary>
+      <p>A typical driveway + walkway takes 1 to 2 hours. Larger homes with patios and fences can be a half-day. We'll give you an exact window when we schedule.</p>
+    </details>
+    <details class="faq">
+      <summary>Do I need to be home?</summary>
+      <p>No &mdash; as long as we have access to an outdoor spigot, we can clean while you're out. We'll send a few photos when we're done.</p>
+    </details>
+    <details class="faq">
+      <summary>Is the cleaning safe for plants, pets and kids?</summary>
+      <p>Yes. We pre-wet landscaping, use biodegradable detergents and rinse thoroughly. Keep pets and kids inside while we run equipment, and you're good to go.</p>
+    </details>
+    <details class="faq">
+      <summary>What about HOA rules and community common areas?</summary>
+      <p>We follow HOA water-use and noise guidelines. For common-area work, we'll coordinate with your HOA board directly.</p>
+    </details>
+    <details class="faq">
+      <summary>Will power washing damage my concrete?</summary>
+      <p>Not when it's done right. We match pressure to surface age and type, and we use wider fan tips on older concrete. Etching happens when inexperienced operators sit in one spot too long &mdash; we keep moving.</p>
+    </details>
+    <details class="faq">
+      <summary>How do I pay?</summary>
+      <p>After the job, via Venmo, Zelle, cash or check. No deposits required for standard residential jobs.</p>
+    </details>
+  </div>
+</section>
+
+<!-- ========== FOOTER ========== -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div style="background:#fff; display:inline-block; padding:12px 16px; border-radius:12px; margin-bottom:14px">
+          <img src="images/logo.png" alt="Meadows Powerwashing" style="height:52px; width:auto; display:block" />
+        </div>
+        <p style="margin:0">Residential power washing done right.<br/>Northern Virginia.</p>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <p style="margin:0 0 6px"><a href="tel:+15712307746">571-230-7746</a></p>
+        <p style="margin:0 0 6px"><a href="mailto:eoinmeadows@icloud.com">eoinmeadows@icloud.com</a></p>
+        <p style="margin:0">Mon&ndash;Sat · 8am–7pm</p>
+      </div>
+      <div>
+        <h4>Jump to</h4>
+        <p style="margin:0 0 6px"><a href="#services">Services</a></p>
+        <p style="margin:0 0 6px"><a href="#gallery">Before &amp; After</a></p>
+        <p style="margin:0 0 6px"><a href="#book">Book a quote</a></p>
+        <p style="margin:0"><a href="#faq">FAQ</a></p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      © <span id="year"></span> Meadows Powerwashing · Northern Virginia · All rights reserved.
+    </div>
+  </div>
+</footer>
+
+<!-- Sticky mobile CTA -->
+<div class="mobile-cta" aria-hidden="false">
+  <a class="btn btn-accent btn-sm" href="sms:+15712307746">
+    <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M20 2H4a2 2 0 0 0-2 2v18l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z"/></svg>
+    Text
+  </a>
+  <a class="btn btn-primary btn-sm" href="#book">Book free quote</a>
+</div>
+
+<script>
+  // ---------- Cloudinary config (shared with admin.html — keep in sync) ----------
+  const CLOUDINARY_CLOUD_NAME = 'YOUR_CLOUD_NAME';
+
+  // Footer year
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Before/After slider — works on every .ba-wrap
+  document.querySelectorAll('.ba-wrap').forEach(function(wrap) {
+    var range = wrap.querySelector('.ba-input');
+    var after = wrap.querySelector('.ba-after');
+    var handle = wrap.querySelector('.ba-handle');
+    var knob = wrap.querySelector('.ba-knob');
+    if (!range || !after) return;
+
+    function setPos(pct) {
+      pct = Math.max(0, Math.min(100, pct));
+      after.style.clipPath = 'inset(0 0 0 ' + pct + '%)';
+      if (handle) handle.style.left = pct + '%';
+      if (knob) knob.style.left = pct + '%';
+    }
+    range.addEventListener('input', function() { setPos(range.value); });
+    // Init
+    setPos(range.value);
+  });
+
+  // ---------- Dynamic gallery — pulls from Cloudinary tag "portfolio" ----------
+  // Uploaded via admin.html. Each pair shares a context.pair_id.
+  async function loadDynamicGallery() {
+    if (!CLOUDINARY_CLOUD_NAME || CLOUDINARY_CLOUD_NAME === 'YOUR_CLOUD_NAME') return;
+    const grid = document.getElementById('gallery-grid');
+    if (!grid) return;
+    try {
+      const res = await fetch(`https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/list/portfolio.json`, { cache: 'no-store' });
+      if (!res.ok) return;
+      const data = await res.json();
+      const pairs = {};
+      for (const r of (data.resources || [])) {
+        const ctx = (r.context && (r.context.custom || r.context)) || {};
+        const pid = ctx.pair_id || r.public_id;
+        if (!pairs[pid]) pairs[pid] = { title: ctx.title || 'Project', when: r.created_at, before: null, after: null };
+        const url = `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/image/upload/q_auto,f_auto,w_1200,c_limit/${r.public_id}.jpg`;
+        pairs[pid][ctx.role || 'before'] = url;
+        if (r.created_at && (!pairs[pid].when || r.created_at > pairs[pid].when)) pairs[pid].when = r.created_at;
+      }
+      const items = Object.values(pairs)
+        .filter(p => p.before && p.after)
+        .sort((a,b) => (b.when || '').localeCompare(a.when || ''));
+      if (!items.length) return;
+
+      for (const p of items) {
+        const sliderId = 'ba-' + Math.random().toString(36).slice(2, 8);
+        const item = document.createElement('div');
+        item.className = 'gallery-item';
+        item.innerHTML = `
+          <div class="ba-wrap" style="aspect-ratio: 4/5;">
+            <img class="ba-before" src="${p.before}" alt="${escapeAttr(p.title)} — before" />
+            <img class="ba-after" src="${p.after}" alt="${escapeAttr(p.title)} — after" />
+            <div class="ba-label before">Before</div>
+            <div class="ba-label after">After</div>
+            <div class="ba-handle"></div>
+            <div class="ba-knob"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l-5-7zm8 0v14l5-7z"/></svg></div>
+            <input class="ba-input" type="range" min="0" max="100" value="50" aria-label="Reveal after image" />
+          </div>
+          <h3>${escapeHtml(p.title)} <span class="tag">Residential</span></h3>
+        `;
+        grid.appendChild(item);
+
+        // Wire the new slider
+        const wrap = item.querySelector('.ba-wrap');
+        const range = wrap.querySelector('.ba-input');
+        const after = wrap.querySelector('.ba-after');
+        const handle = wrap.querySelector('.ba-handle');
+        const knob = wrap.querySelector('.ba-knob');
+        function setPos(pct) {
+          pct = Math.max(0, Math.min(100, pct));
+          after.style.clipPath = 'inset(0 0 0 ' + pct + '%)';
+          if (handle) handle.style.left = pct + '%';
+          if (knob) knob.style.left = pct + '%';
+        }
+        range.addEventListener('input', () => setPos(range.value));
+        setPos(range.value);
+      }
+    } catch (err) {
+      console.warn('Portfolio fetch failed:', err);
+    }
+  }
+  function escapeHtml(s) { return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+  function escapeAttr(s) { return escapeHtml(s); }
+  loadDynamicGallery();
+
+  // Booking form: submit via fetch to Netlify Forms so the user stays on the page
+  // and immediately sees the thank-you state. Netlify accepts the POST at "/" when
+  // form-name is included in the body.
+  var form = document.getElementById('book-form');
+  if (form) {
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      var formCard = document.getElementById('form-card');
+      var data = new URLSearchParams(new FormData(form)).toString();
+      fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: data
+      }).then(function(r) {
+        if (r.ok) {
+          if (formCard) formCard.classList.add('sent');
+        } else {
+          alert('Sorry — something went wrong sending the form. Please call or text 571-230-7746.');
+        }
+      }).catch(function() {
+        alert('Sorry — something went wrong sending the form. Please call or text 571-230-7746.');
+      });
+    });
+  }
+
+  // If someone lands with ?submitted=true (native form fallback), show the thank-you state.
+  if (new URLSearchParams(window.location.search).get('submitted') === 'true') {
+    var fc = document.getElementById('form-card');
+    if (fc) fc.classList.add('sent');
+  }
+</script>
+</body>
+</html>

@@ -55,7 +55,7 @@ export default async (request) => {
         Authorization: `Bearer ${resendKey}`,
         "content-type": "application/json",
       },
-      body: JSON.stringify({ from: fromEmail, to: [eoinEmail], subject, text }),
+      body: JSON.stringify({ from: `Meadows Powerwashing <${fromEmail}>`, to: [eoinEmail], subject, text }),
     }).catch(() => {});
   }
 

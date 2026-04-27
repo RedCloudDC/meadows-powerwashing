@@ -120,7 +120,7 @@ export default async (request) => {
     customer.email
       ? sendResend({
           apiKey: resendKey,
-          from: fromEmail,
+          from: `Meadows Powerwashing <${fromEmail}>`,
           to: [customer.email],
           subject: customerSubject,
           text: customerText,

@@ -45,19 +45,22 @@ export default async (request) => {
   const fromEmail = process.env.FROM_EMAIL || "onboarding@resend.dev";
   const eoinEmail = process.env.EOIN_EMAIL || "eoinmeadows@icloud.com";
 
-  const subject = `New booking: ${customer.name}${customer.address ? " — " + truncate(customer.address, 40) : ""}`;
+  // Subject is what shows up in iOS lock-screen previews — pack the high-signal stuff first.
+  const shortAddress = customer.address ? " · " + truncate(customer.address, 40) : "";
+  const subject = `New booking · ${customer.name}${shortAddress}`;
+  // First body line shows in the notification preview when "Show Previews: When Unlocked" — keep
+  // the most actionable info up top.
   const text =
-    `New booking from ${customer.name}\n\n` +
-    (customer.phone ? `Phone:    ${customer.phone}\n` : "") +
-    (customer.email ? `Email:    ${customer.email}\n` : "") +
-    (customer.address ? `Address:  ${customer.address}\n` : "") +
-    (customer.preferred_date ? `Wants:    ${customer.preferred_date}\n` : "") +
-    (customer.notes ? `Notes:    ${customer.notes}\n` : "") +
-    `\nOpen in Dashboard:\n${dashboardLink}\n\n` +
+    `📞 ${customer.phone || "no phone"}` +
+    (customer.email ? `  ·  ✉ ${customer.email}` : "") +
+    `\n${customer.address || "(no address)"}` +
+    (customer.notes ? `\n\nNotes: ${customer.notes}` : "") +
+    (customer.preferred_date ? `\nWants: ${customer.preferred_date}` : "") +
+    `\n\n—\nOpen in Dashboard:\n${dashboardLink}\n\n` +
     `Quick actions:\n` +
     (customer.phone ? `  Text customer: sms:${customer.phone.replace(/[^\d+]/g, "")}\n` : "") +
     (customer.email ? `  Email customer: mailto:${customer.email}\n` : "") +
-    `\n— Meadows Powerwashing`;
+    `\nMeadows Powerwashing`;
 
   const html = `<!doctype html><html><body style="margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif;background:#f7fafc;color:#0b1220;">
     <div style="max-width:520px;margin:0 auto;padding:20px;">
@@ -94,7 +97,7 @@ export default async (request) => {
         "content-type": "application/json",
       },
       body: JSON.stringify({
-        from: fromEmail,
+        from: `Meadows Powerwashing <${fromEmail}>`,
         to: [eoinEmail],
         reply_to: customer.email || undefined,
         subject,

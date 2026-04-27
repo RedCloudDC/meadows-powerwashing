@@ -49,7 +49,7 @@ export default async (request) => {
   if (resendKey) {
     emailResult = await sendResend({
       apiKey: resendKey,
-      from: fromEmail,
+      from: `Meadows Powerwashing <${fromEmail}>`,
       to: [customer.email],
       replyTo: eoinEmail,
       subject,

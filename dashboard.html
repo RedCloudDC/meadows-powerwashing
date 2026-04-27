@@ -159,6 +159,42 @@
   .toast.show { transform: translate(-50%, 0); }
   .toast.err { background: var(--danger); }
 
+  /* Photos tab */
+  .photo-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .photo-field {
+    display: block; border: 2px dashed var(--line); border-radius: 12px;
+    padding: 18px; text-align: center; background: #fafafa;
+    cursor: pointer; transition: border-color .15s, background .15s;
+  }
+  .photo-field:hover { border-color: var(--brand-2); background: var(--accent-soft); }
+  .photo-field .ico { color: var(--brand); font-size: 26px; line-height: 1; }
+  .photo-field .sub { color: var(--muted); font-size: 13px; margin-top: 4px; }
+  .photo-field.filled { border-color: var(--success); background: #f0fdf4; }
+  .photo-field.filled .ico { color: var(--success); }
+  .photo-field input[type="file"] { display: none; }
+  .photo-preview {
+    margin-top: 10px; display: block; max-height: 160px; max-width: 100%;
+    border-radius: 8px; margin-left: auto; margin-right: auto;
+  }
+  #ph-status {
+    margin-top: 12px; padding: 12px; border-radius: 10px; font-size: 14px; display: none;
+  }
+  #ph-status.show { display: block; }
+  #ph-status.info { background: var(--accent-soft); color: var(--brand); }
+  #ph-status.ok { background: #dcfce7; color: #166534; }
+  #ph-status.err { background: #fee2e2; color: var(--danger); }
+  .progress { height: 4px; background: var(--line); border-radius: 2px; overflow: hidden; margin-top: 8px; }
+  .progress span { display: block; height: 100%; background: var(--brand-2); width: 0; transition: width .2s; }
+  .gallery-list { display: grid; grid-template-columns: 1fr; gap: 10px; }
+  .g-item {
+    display: grid; grid-template-columns: 60px 60px 1fr; gap: 10px; align-items: center;
+    padding: 8px; border: 1px solid var(--line); border-radius: 10px; background: #fff;
+  }
+  .g-item img { width: 60px; height: 60px; object-fit: cover; border-radius: 8px; display: block; }
+  .g-item .meta { font-size: 14px; }
+  .g-item .meta b { display: block; }
+  .g-item .meta small { color: var(--muted); }
+
   @media (max-width: 560px) {
     .cal-day { min-height: 66px; padding: 4px; }
     .cal-job { font-size: 10px; }
@@ -196,6 +232,7 @@
     <div class="tabs">
       <button class="tab active" data-tab="customers" id="tab-customers">Customers</button>
       <button class="tab" data-tab="schedule" id="tab-schedule">Schedule</button>
+      <button class="tab" data-tab="photos" id="tab-photos">Photos</button>
     </div>
 
     <!-- CUSTOMERS TAB -->
@@ -230,6 +267,51 @@
         Jobs appear on their <em>confirmed</em> date once you've set one, or on the customer's
         <em>preferred</em> date otherwise. Tap a job to edit or confirm.
       </p>
+    </section>
+
+    <!-- PHOTOS TAB -->
+    <section id="view-photos" style="display: none;">
+      <div class="card">
+        <h2>Add a project</h2>
+        <form id="upload-form">
+          <label for="ph-title">Project title</label>
+          <input id="ph-title" type="text" required placeholder="e.g., McLean driveway" style="margin-bottom: 14px" />
+
+          <div class="photo-row">
+            <label class="photo-field" id="before-field">
+              <div class="ico">📸</div>
+              <b>Before</b>
+              <div class="sub">Tap to choose</div>
+              <img id="before-preview" class="photo-preview" hidden />
+              <input id="before" type="file" accept="image/*" capture="environment" required />
+            </label>
+            <label class="photo-field" id="after-field">
+              <div class="ico">✨</div>
+              <b>After</b>
+              <div class="sub">Tap to choose</div>
+              <img id="after-preview" class="photo-preview" hidden />
+              <input id="after" type="file" accept="image/*" capture="environment" required />
+            </label>
+          </div>
+
+          <button class="btn btn-primary" id="ph-submit" type="submit" style="margin-top: 14px; width: 100%">
+            Upload to portfolio
+          </button>
+          <div class="progress" hidden id="progress"><span></span></div>
+          <div id="ph-status"></div>
+        </form>
+      </div>
+
+      <div class="card">
+        <h2>Recent uploads</h2>
+        <div id="recent" class="gallery-list">Loading…</div>
+        <button class="btn btn-ghost" id="ph-refresh" style="margin-top: 14px">Refresh list</button>
+        <p class="hint" style="margin-top: 10px">
+          Manage or delete items at
+          <a href="https://cloudinary.com/console/media_library" target="_blank" rel="noopener">Cloudinary → Media Library</a>.
+          Changes show on the public site within ~1 minute.
+        </p>
+      </div>
     </section>
 
     <div style="margin-top: 16px; text-align: center;">
@@ -361,6 +443,11 @@
     await loadJobs();
     renderCustomers();
     renderCalendar();
+    // Honor URL hash routing (e.g. /dashboard.html#photos lands on Photos tab)
+    const hash = (location.hash || '').replace('#', '');
+    if (hash && document.querySelector(`.tab[data-tab="${hash}"]`)) {
+      document.querySelector(`.tab[data-tab="${hash}"]`).click();
+    }
   }
 
   // Try auto-unlock
@@ -379,9 +466,145 @@
       const which = t.dataset.tab;
       $('view-customers').style.display = which === 'customers' ? 'block' : 'none';
       $('view-schedule').style.display = which === 'schedule' ? 'block' : 'none';
+      $('view-photos').style.display = which === 'photos' ? 'block' : 'none';
       if (which === 'schedule') renderCalendar();
+      if (which === 'photos') loadRecent();
     });
   });
+
+  // ---------- Cloudinary photo uploads ----------
+  const CLOUD_NAME    = 'dgeu7z0vg';
+  const UPLOAD_PRESET = 'meadows_unsigned';
+
+  function wirePreview(inputId, previewId, fieldId) {
+    const input = $(inputId);
+    const preview = $(previewId);
+    const field = $(fieldId);
+    input.addEventListener('change', () => {
+      const f = input.files[0];
+      if (!f) return;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        preview.src = e.target.result;
+        preview.hidden = false;
+        field.classList.add('filled');
+      };
+      reader.readAsDataURL(f);
+    });
+  }
+  wirePreview('before', 'before-preview', 'before-field');
+  wirePreview('after',  'after-preview',  'after-field');
+
+  function setPhStatus(msg, kind) {
+    const el = $('ph-status');
+    el.textContent = msg;
+    el.className = 'show ' + (kind || 'info');
+  }
+  function setProgress(pct) {
+    const wrap = $('progress');
+    wrap.hidden = false;
+    wrap.querySelector('span').style.width = pct + '%';
+  }
+
+  function uploadOne(file, fields, onProgress) {
+    return new Promise((resolve, reject) => {
+      const fd = new FormData();
+      fd.append('file', file);
+      fd.append('upload_preset', UPLOAD_PRESET);
+      for (const [k,v] of Object.entries(fields)) fd.append(k, v);
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`);
+      xhr.upload.onprogress = (e) => { if (e.lengthComputable && onProgress) onProgress(e.loaded / e.total); };
+      xhr.onload = () => {
+        if (xhr.status >= 200 && xhr.status < 300) resolve(JSON.parse(xhr.responseText));
+        else reject(new Error('Upload failed: ' + xhr.status + ' ' + xhr.responseText));
+      };
+      xhr.onerror = () => reject(new Error('Network error'));
+      xhr.send(fd);
+    });
+  }
+
+  $('upload-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = $('ph-submit');
+    btn.disabled = true;
+
+    const title = $('ph-title').value.trim() || 'Project';
+    const before = $('before').files[0];
+    const after  = $('after').files[0];
+    if (!before || !after) { setPhStatus('Pick a before and after photo.', 'err'); btn.disabled = false; return; }
+
+    const pairId = 'p' + Date.now().toString(36);
+    const safeTitle = title.replace(/\|/g, '/');
+
+    try {
+      setPhStatus('Uploading before photo…', 'info');
+      setProgress(0);
+      await uploadOne(before, {
+        tags: 'portfolio',
+        context: `pair_id=${pairId}|role=before|title=${safeTitle}`
+      }, pct => setProgress(pct * 50));
+
+      setPhStatus('Uploading after photo…', 'info');
+      await uploadOne(after, {
+        tags: 'portfolio',
+        context: `pair_id=${pairId}|role=after|title=${safeTitle}`
+      }, pct => setProgress(50 + pct * 50));
+
+      setPhStatus('✅ Uploaded! It’ll appear on the site within a minute.', 'ok');
+      setProgress(100);
+      $('upload-form').reset();
+      $('before-preview').hidden = true;
+      $('after-preview').hidden = true;
+      $('before-field').classList.remove('filled');
+      $('after-field').classList.remove('filled');
+      setTimeout(() => { $('progress').hidden = true; loadRecent(); }, 1500);
+    } catch (err) {
+      console.error(err);
+      setPhStatus('Upload failed — ' + err.message, 'err');
+    } finally {
+      btn.disabled = false;
+    }
+  });
+
+  async function loadRecent() {
+    const el = $('recent');
+    if (!el) return;
+    el.innerHTML = 'Loading…';
+    try {
+      const res = await fetch(`https://res.cloudinary.com/${CLOUD_NAME}/image/list/portfolio.json`, { cache: 'no-store' });
+      if (!res.ok) throw new Error('list endpoint returned ' + res.status);
+      const data = await res.json();
+      const pairs = {};
+      for (const r of (data.resources || [])) {
+        const ctx = (r.context && (r.context.custom || r.context)) || {};
+        const pid = ctx.pair_id || r.public_id;
+        if (!pairs[pid]) pairs[pid] = { title: ctx.title || 'Project', when: r.created_at, before: null, after: null };
+        const thumb = `https://res.cloudinary.com/${CLOUD_NAME}/image/upload/c_fill,w_120,h_120,q_auto,f_auto/${r.public_id}.jpg`;
+        pairs[pid][ctx.role || 'before'] = thumb;
+        if (r.created_at && (!pairs[pid].when || r.created_at > pairs[pid].when)) pairs[pid].when = r.created_at;
+      }
+      const items = Object.values(pairs).sort((a,b) => (b.when || '').localeCompare(a.when || ''));
+      if (!items.length) { el.innerHTML = '<p style="color:var(--muted);font-size:14px;margin:0">No uploads yet. Add your first one above!</p>'; return; }
+      el.innerHTML = items.slice(0, 20).map(p => `
+        <div class="g-item">
+          <img src="${p.before || ''}" alt="Before" />
+          <img src="${p.after  || ''}" alt="After" />
+          <div class="meta"><b>${escapePhotoHtml(p.title)}</b><small>${p.when ? new Date(p.when).toLocaleString() : ''}</small></div>
+        </div>
+      `).join('');
+    } catch (err) {
+      el.innerHTML = `<p style="color:var(--muted);font-size:14px;margin:0">
+        Can’t load the list yet. If this is your first upload, give Cloudinary a minute.<br/>
+        <small>${escapePhotoHtml(String(err.message || err))}</small>
+      </p>`;
+    }
+  }
+  $('ph-refresh').addEventListener('click', loadRecent);
+
+  function escapePhotoHtml(s) {
+    return String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+  }
 
   // ---------- filters ----------
   document.querySelectorAll('.filter').forEach(f => {

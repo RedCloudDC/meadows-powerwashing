@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Accept your Meadows Powerwashing quote</title>
+<meta name="robots" content="noindex, nofollow" />
+<meta name="theme-color" content="#0c4a6e" />
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+
+<style>
+  :root {
+    --bg: #f7fafc; --surface: #fff; --ink: #0b1220; --muted: #64748b;
+    --line: #e2e8f0; --brand: #0c4a6e; --brand-2: #0369a1; --accent: #38bdf8;
+    --success: #16a34a; --danger: #dc2626; --shadow: 0 4px 14px rgba(12,74,110,.08);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; min-height: 100vh; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg); color: var(--ink); line-height: 1.5; font-size: 16px;
+    display: grid; place-items: center; padding: 24px;
+    -webkit-font-smoothing: antialiased;
+  }
+  .card {
+    background: var(--surface); border-radius: 16px; padding: 28px 24px;
+    border: 1px solid var(--line); box-shadow: var(--shadow);
+    max-width: 460px; width: 100%;
+  }
+  header { text-align: center; margin-bottom: 12px; }
+  .logo-mark {
+    width: 56px; height: 56px; border-radius: 14px;
+    background: linear-gradient(160deg, var(--accent), var(--brand-2));
+    color: #fff; display: inline-flex; align-items: center; justify-content: center;
+    box-shadow: var(--shadow);
+  }
+  .logo-mark svg { width: 30px; height: 30px; }
+  h1 { font-size: 20px; margin: 16px 0 4px; }
+  .sub { color: var(--muted); font-size: 14px; margin: 0; }
+  .price-block {
+    margin: 24px 0; padding: 24px; text-align: center;
+    background: linear-gradient(160deg, #e0f2fe, #f0f9ff);
+    border-radius: 14px; border: 1px solid var(--line);
+  }
+  .price-block .amount { font-size: 44px; font-weight: 800; color: var(--brand); margin: 0; }
+  .price-block .for { color: var(--muted); font-size: 14px; margin: 4px 0 0; }
+  .row-btns { display: grid; grid-template-columns: 1fr; gap: 10px; }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    padding: 14px 18px; border-radius: 999px; border: 0; cursor: pointer;
+    font-weight: 700; font-size: 16px; text-decoration: none; width: 100%;
+    font: inherit; font-weight: 700;
+  }
+  .btn-primary { background: var(--success); color: #fff; }
+  .btn-primary:disabled { background: var(--muted); cursor: wait; }
+  .btn-ghost { background: transparent; color: var(--brand); border: 1px solid var(--line); }
+  .hint { color: var(--muted); font-size: 13px; margin: 14px 0 0; text-align: center; }
+  .err { background: #fee2e2; color: var(--danger); padding: 12px; border-radius: 10px; font-size: 14px; margin: 12px 0 0; }
+  .ok-state {
+    text-align: center; padding: 14px 4px;
+  }
+  .ok-state .check {
+    width: 64px; height: 64px; border-radius: 50%; background: var(--success);
+    color: #fff; display: inline-grid; place-items: center; font-size: 32px;
+    margin-bottom: 10px;
+  }
+  .skel {
+    background: #e2e8f0; border-radius: 8px; height: 16px; margin: 6px 0;
+    animation: pulse 1.4s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100% { opacity: 1 } 50% { opacity: .5 } }
+</style>
+</head>
+<body>
+  <div class="card">
+    <header>
+      <div class="logo-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10 L12 3 L20 10"/><path d="M6 10 V20 H18 V10"/><path d="M10 20 V14 H14 V20"/></svg>
+      </div>
+      <h1>Your quote from Meadows Powerwashing</h1>
+      <p class="sub" id="sub">Loading…</p>
+    </header>
+
+    <div id="loading">
+      <div class="skel" style="width:80%; margin:0 auto;"></div>
+      <div class="skel" style="width:60%; margin:6px auto;"></div>
+    </div>
+
+    <div id="quote-view" hidden>
+      <div class="price-block">
+        <p class="amount" id="amount">$—</p>
+        <p class="for" id="for">—</p>
+      </div>
+      <div class="row-btns">
+        <button class="btn btn-primary" id="accept-btn">Accept this quote</button>
+        <button class="btn btn-ghost" id="decline-btn">Decline</button>
+      </div>
+      <p class="hint">
+        Questions? Reply to the email or text Eoin at
+        <a href="sms:+15712307746">571-230-7746</a>.
+      </p>
+    </div>
+
+    <div id="ok" class="ok-state" hidden>
+      <div class="check">✓</div>
+      <h2 style="margin:0 0 6px">You're all set!</h2>
+      <p class="sub" id="ok-msg">Eoin will text you to confirm a date.</p>
+    </div>
+
+    <div id="declined" class="ok-state" hidden>
+      <h2 style="margin:0 0 6px">No problem</h2>
+      <p class="sub">Thanks for considering. Reach out any time if things change.</p>
+    </div>
+
+    <p id="err" class="err" hidden></p>
+  </div>
+
+<script>
+  const params = new URLSearchParams(location.search);
+  const id = params.get('id');
+  const $ = (sel) => document.getElementById(sel);
+
+  function showErr(msg) {
+    $('loading').hidden = true;
+    $('quote-view').hidden = true;
+    $('err').textContent = msg;
+    $('err').hidden = false;
+    $('sub').textContent = '';
+  }
+
+  async function loadQuote() {
+    if (!id) return showErr('Missing quote ID. Check the link from your email.');
+    try {
+      const r = await fetch('/.netlify/functions/fetch-quote?id=' + encodeURIComponent(id));
+      if (r.status === 404) return showErr("This quote isn't ready yet, or the link is wrong. Reply to your email if you think this is a mistake.");
+      if (!r.ok) {
+        const body = await r.json().catch(() => ({}));
+        return showErr(body.error || ('HTTP ' + r.status));
+      }
+      const q = await r.json();
+      // Already accepted? Skip to OK state.
+      if (q.status === 'accepted') {
+        $('loading').hidden = true;
+        $('ok').hidden = false;
+        $('ok-msg').textContent = "You already accepted this quote. Eoin will text you to confirm a date.";
+        $('sub').textContent = '';
+        return;
+      }
+      $('amount').textContent = '$' + Number(q.priceQuoted || 0).toFixed(0);
+      $('for').textContent = q.serviceDescription || 'the job';
+      $('sub').textContent = q.name ? `For ${q.name}` : '';
+      $('loading').hidden = true;
+      $('quote-view').hidden = false;
+    } catch (e) {
+      showErr(String(e));
+    }
+  }
+
+  async function respond(accepted) {
+    $('accept-btn').disabled = true;
+    $('decline-btn').disabled = true;
+    try {
+      const r = await fetch('/.netlify/functions/confirm-quote', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ id, accepted }),
+      });
+      if (!r.ok) {
+        const body = await r.json().catch(() => ({}));
+        showErr(body.error || ('HTTP ' + r.status));
+        $('accept-btn').disabled = false;
+        $('decline-btn').disabled = false;
+        return;
+      }
+      $('quote-view').hidden = true;
+      $('sub').textContent = '';
+      if (accepted) $('ok').hidden = false;
+      else $('declined').hidden = false;
+    } catch (e) { showErr(String(e)); }
+  }
+
+  $('accept-btn').addEventListener('click', () => respond(true));
+  $('decline-btn').addEventListener('click', () => respond(false));
+
+  loadQuote();
+</script>
+</body>
+</html>

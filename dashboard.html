@@ -16,7 +16,7 @@
     --muted: #64748b; --line: #e2e8f0; --brand: #0c4a6e; --brand-2: #0369a1;
     --accent: #38bdf8; --accent-soft: #e0f2fe; --danger: #dc2626; --success: #16a34a;
     --warning: #f59e0b; --shadow: 0 4px 14px rgba(12,74,110,.08); --radius: 14px;
-    --st-new: #0369a1; --st-quoted: #f59e0b; --st-scheduled: #16a34a; --st-done: #64748b;
+    --st-new: #0369a1; --st-quoted: #f59e0b; --st-accepted: #2563eb; --st-scheduled: #16a34a; --st-done: #64748b; --st-declined: #94a3b8;
   }
   * { box-sizing: border-box; }
   body {
@@ -104,8 +104,10 @@
   }
   .pill.new { background: var(--st-new); }
   .pill.quoted { background: var(--st-quoted); }
+  .pill.accepted { background: var(--st-accepted); }
   .pill.scheduled { background: var(--st-scheduled); }
   .pill.done { background: var(--st-done); }
+  .pill.declined { background: var(--st-declined); }
   .empty {
     text-align: center; padding: 30px 20px; color: var(--muted);
     border: 1px dashed var(--line); border-radius: 12px; background: #fff;
@@ -241,6 +243,7 @@
         <button class="filter on" data-filter="all">All</button>
         <button class="filter" data-filter="new">New</button>
         <button class="filter" data-filter="quoted">Quoted</button>
+        <button class="filter" data-filter="accepted">Accepted</button>
         <button class="filter" data-filter="scheduled">Scheduled</button>
         <button class="filter" data-filter="done">Done</button>
         <span class="count" id="count">—</span>
@@ -331,9 +334,11 @@
       <label>Status</label>
       <select id="m-status">
         <option value="new">New</option>
-        <option value="quoted">Quoted</option>
+        <option value="quoted">Quoted (waiting on customer)</option>
+        <option value="accepted">Accepted (ready to schedule)</option>
         <option value="scheduled">Scheduled</option>
         <option value="done">Done</option>
+        <option value="declined">Declined</option>
       </select>
     </div>
 
@@ -375,11 +380,13 @@
 
     <div class="row-btns" style="margin-top: 14px;">
       <button class="btn btn-primary" id="m-save">Save</button>
+      <button class="btn btn-success" id="m-send-quote">Send quote to customer</button>
       <button class="btn btn-success" id="m-confirm-send">Confirm &amp; send</button>
       <button class="btn btn-ghost" id="m-close">Close</button>
     </div>
     <p class="hint" id="m-hint">
-      "Confirm &amp; send" emails the customer with a calendar invite (.ics) and sends you a matching one so the job appears on your iPhone Calendar.
+      <b>Send quote to customer</b> — emails the customer the price + a one-tap accept link. Status moves to <em>Quoted</em>.<br/>
+      <b>Confirm &amp; send</b> — once a date is set, emails the customer (and you) a calendar invite (.ics).
     </p>
   </div>
 </div>
@@ -835,6 +842,50 @@
       toast('Save failed: ' + e.message, true);
     } finally {
       $('m-save').disabled = false;
+    }
+  });
+
+  $('m-send-quote').addEventListener('click', async () => {
+    if (!OPEN_ID) return;
+    const state = collectState();
+    if (!state.priceQuoted) {
+      toast('Enter a price first', true); return;
+    }
+    const job = JOBS.find(j => j.id === OPEN_ID);
+    if (!job) return;
+    if (!job.email) {
+      toast('No customer email on file — try Save then Send', true); return;
+    }
+    $('m-send-quote').disabled = true;
+    try {
+      // Save first so the latest priceQuoted/notes are in state
+      await saveJob(OPEN_ID, { ...state, status: 'quoted' });
+      const resp = await fetch('/.netlify/functions/send-quote', {
+        method: 'POST',
+        headers: { 'x-auth': AUTH, 'content-type': 'application/json' },
+        body: JSON.stringify({
+          id: OPEN_ID,
+          customer: { name: job.name, email: job.email, address: job.address },
+          priceQuoted: state.priceQuoted,
+          notes: state.notes || '',
+          serviceDescription: job.notes_from_customer || job.service || 'the work at your address',
+        }),
+      });
+      const body = await resp.json().catch(() => ({}));
+      if (!resp.ok) throw new Error(body.error || ('HTTP ' + resp.status));
+      if (body.emailResult && body.emailResult.skipped) {
+        toast('Quote saved. (Email skipped — Resend not configured yet.)', true);
+      } else {
+        toast('Quote sent! Customer can now accept it.');
+      }
+      // Update local state and re-render
+      job.state = { ...job.state, ...state, status: 'quoted', priceQuoted: state.priceQuoted };
+      renderCustomers(); renderCalendar();
+      closeModal();
+    } catch (e) {
+      toast('Send failed: ' + e.message, true);
+    } finally {
+      $('m-send-quote').disabled = false;
     }
   });
 

@@ -358,7 +358,7 @@
       </div>
       <div class="field">
         <label>Price quoted ($)</label>
-        <input type="number" id="m-price" min="0" step="5" />
+        <input type="text" inputmode="decimal" pattern="[0-9.]*" id="m-price" placeholder="e.g., 150" />
       </div>
     </div>
 
@@ -808,6 +808,16 @@
     if (e.target.id === 'modal-backdrop') closeModal();
   });
 
+  function parsePrice(raw) {
+    if (raw == null) return null;
+    // Strip $, commas, spaces, and any other non-digit/decimal chars so
+    // "$150", " 150 ", "1,500", "150.00" all parse correctly.
+    const cleaned = String(raw).replace(/[^0-9.]/g, "");
+    if (!cleaned) return null;
+    const n = Number(cleaned);
+    return isNaN(n) || n <= 0 ? null : n;
+  }
+
   function collectState() {
     const status = $('m-status').value;
     const date = $('m-date').value;
@@ -819,7 +829,7 @@
       status,
       confirmedAt,
       durationMinutes: Number($('m-duration').value) || 60,
-      priceQuoted: $('m-price').value ? Number($('m-price').value) : null,
+      priceQuoted: parsePrice($('m-price').value),
       notes: $('m-notes').value,
       paid: $('m-paid').checked,
     };

@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Meadows Powerwashing — Dashboard</title>
+<meta name="robots" content="noindex, nofollow" />
+<meta name="theme-color" content="#0c4a6e" />
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png" />
+<link rel="icon" type="image/png" sizes="192x192" href="favicon-192.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+
+<style>
+  :root {
+    --bg: #f7fafc; --surface: #fff; --ink: #0b1220; --ink-soft: #334155;
+    --muted: #64748b; --line: #e2e8f0; --brand: #0c4a6e; --brand-2: #0369a1;
+    --accent: #38bdf8; --accent-soft: #e0f2fe; --danger: #dc2626; --success: #16a34a;
+    --warning: #f59e0b; --shadow: 0 4px 14px rgba(12,74,110,.08); --radius: 14px;
+    --st-new: #0369a1; --st-quoted: #f59e0b; --st-scheduled: #16a34a; --st-done: #64748b;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg); color: var(--ink); line-height: 1.5; font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    padding: env(safe-area-inset-top) 0 env(safe-area-inset-bottom);
+  }
+  a { color: var(--brand-2); }
+  button { font: inherit; cursor: pointer; }
+
+  .container { max-width: 960px; margin: 0 auto; padding: 16px; }
+  header { text-align: center; padding: 20px 16px 4px; }
+  header h1 { margin: 4px 0 2px; font-size: 22px; }
+  header p { color: var(--muted); margin: 0; font-size: 14px; }
+  .logo-mark {
+    width: 40px; height: 40px; border-radius: 12px;
+    background: linear-gradient(160deg, var(--accent), var(--brand-2));
+    color: #fff; display: inline-flex; align-items: center; justify-content: center;
+    box-shadow: var(--shadow);
+  }
+  .logo-mark svg { width: 22px; height: 22px; }
+
+  .card {
+    background: var(--surface); border-radius: var(--radius); padding: 18px;
+    border: 1px solid var(--line); box-shadow: var(--shadow); margin-bottom: 14px;
+  }
+  h2 { margin: 0 0 12px; font-size: 18px; }
+  label { display: block; font-weight: 600; margin-bottom: 6px; font-size: 14px; }
+  input, select, textarea {
+    width: 100%; padding: 12px; border: 1px solid var(--line); border-radius: 10px;
+    font: inherit; background: #fff; color: var(--ink);
+  }
+  textarea { min-height: 64px; resize: vertical; }
+  input:focus, select:focus, textarea:focus {
+    outline: none; border-color: var(--brand-2); box-shadow: 0 0 0 3px rgba(3,105,161,.15);
+  }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    gap: 8px; padding: 12px 14px; border-radius: 10px; font-weight: 600;
+    border: 1px solid transparent; font-size: 15px; text-decoration: none;
+  }
+  .btn-primary { background: var(--brand); color: #fff; }
+  .btn-primary:hover { background: var(--brand-2); }
+  .btn-ghost { background: transparent; color: var(--brand); border-color: var(--line); }
+  .btn-ghost:hover { background: var(--accent-soft); }
+  .btn-danger { background: var(--danger); color: #fff; }
+  .btn-success { background: var(--success); color: #fff; }
+  .btn:disabled { opacity: .55; cursor: not-allowed; }
+  .row-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+
+  /* Tabs */
+  .tabs { display: flex; gap: 4px; margin-bottom: 14px; border-bottom: 1px solid var(--line); }
+  .tab {
+    padding: 12px 16px; border: none; background: transparent; color: var(--muted);
+    font-weight: 600; border-bottom: 2px solid transparent; margin-bottom: -1px;
+  }
+  .tab.active { color: var(--brand); border-bottom-color: var(--brand); }
+
+  /* Auth gate */
+  #auth-gate { max-width: 440px; margin: 0 auto; }
+
+  /* Job list */
+  .toolbar { display: flex; gap: 8px; margin-bottom: 12px; align-items: center; flex-wrap: wrap; }
+  .toolbar .count { color: var(--muted); font-size: 14px; margin-left: auto; }
+  .filter {
+    padding: 8px 10px; border-radius: 999px; border: 1px solid var(--line);
+    background: #fff; color: var(--ink-soft); font-size: 13px; font-weight: 600;
+  }
+  .filter.on { background: var(--brand); color: #fff; border-color: var(--brand); }
+
+  .job {
+    display: grid; grid-template-columns: 1fr auto; gap: 8px 12px;
+    padding: 14px; border: 1px solid var(--line); border-radius: 12px;
+    background: #fff; margin-bottom: 10px; cursor: pointer;
+    transition: border-color .12s, transform .12s;
+  }
+  .job:hover { border-color: var(--brand-2); }
+  .job .who { font-weight: 700; }
+  .job .meta { font-size: 13px; color: var(--muted); }
+  .job .pill {
+    display: inline-block; padding: 3px 10px; border-radius: 999px;
+    font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .03em;
+    color: #fff;
+  }
+  .pill.new { background: var(--st-new); }
+  .pill.quoted { background: var(--st-quoted); }
+  .pill.scheduled { background: var(--st-scheduled); }
+  .pill.done { background: var(--st-done); }
+  .empty {
+    text-align: center; padding: 30px 20px; color: var(--muted);
+    border: 1px dashed var(--line); border-radius: 12px; background: #fff;
+  }
+
+  /* Calendar */
+  .cal-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+  .cal-head h3 { margin: 0; font-size: 17px; }
+  .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+  .cal-dow { text-align: center; font-weight: 700; color: var(--muted); font-size: 12px; padding: 4px 0; }
+  .cal-day {
+    min-height: 90px; padding: 6px; background: #fff; border: 1px solid var(--line);
+    border-radius: 8px; font-size: 12px; display: flex; flex-direction: column; gap: 3px;
+  }
+  .cal-day.other { background: #fafafa; color: var(--muted); }
+  .cal-day.today { border-color: var(--brand-2); box-shadow: 0 0 0 2px rgba(3,105,161,.2); }
+  .cal-num { font-weight: 700; font-size: 13px; }
+  .cal-job {
+    font-size: 11px; padding: 3px 5px; border-radius: 4px; color: #fff;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis; cursor: pointer;
+  }
+  .cal-job.new { background: var(--st-new); }
+  .cal-job.quoted { background: var(--st-quoted); }
+  .cal-job.scheduled { background: var(--st-scheduled); }
+  .cal-job.done { background: var(--st-done); }
+
+  /* Modal */
+  .backdrop {
+    position: fixed; inset: 0; background: rgba(12,22,38,.5);
+    display: none; align-items: flex-end; justify-content: center; z-index: 100;
+    padding: 0;
+  }
+  .backdrop.open { display: flex; }
+  .modal {
+    background: #fff; border-top-left-radius: 20px; border-top-right-radius: 20px;
+    width: 100%; max-width: 640px; max-height: 92vh; overflow-y: auto; padding: 20px;
+    box-shadow: 0 -10px 40px rgba(0,0,0,.25);
+  }
+  .modal h3 { margin: 0 0 4px; }
+  .modal .sub { color: var(--muted); font-size: 13px; margin-bottom: 14px; }
+  .modal .field { margin-bottom: 12px; }
+  .modal .two { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .tap-link { display: inline-flex; align-items: center; gap: 4px; color: var(--brand-2); font-weight: 600; }
+  .hint { font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+  .toast {
+    position: fixed; left: 50%; bottom: 24px; transform: translate(-50%, 120%);
+    background: var(--ink); color: #fff; padding: 10px 16px; border-radius: 10px;
+    font-size: 14px; z-index: 200; transition: transform .25s; box-shadow: var(--shadow);
+  }
+  .toast.show { transform: translate(-50%, 0); }
+  .toast.err { background: var(--danger); }
+
+  @media (max-width: 560px) {
+    .cal-day { min-height: 66px; padding: 4px; }
+    .cal-job { font-size: 10px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <div class="logo-mark" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10 L12 3 L20 10"/><path d="M6 10 V20 H18 V10"/><path d="M10 20 V14 H14 V20"/></svg>
+    </div>
+    <h1>Dashboard</h1>
+    <p id="header-sub">Meadows Powerwashing</p>
+  </header>
+
+  <!-- Auth gate -->
+  <div id="auth-gate" class="card">
+    <h2>Unlock dashboard</h2>
+    <label for="pass">Passphrase</label>
+    <input id="pass" type="password" autocomplete="current-password" placeholder="••••••••" />
+    <div class="row-btns" style="margin-top: 12px;">
+      <button class="btn btn-primary" id="unlock">Unlock</button>
+    </div>
+    <p id="auth-msg" style="color: var(--danger); font-size: 14px; margin: 10px 0 0; display: none;"></p>
+    <p class="hint" style="margin-top: 14px;">
+      First time? The passphrase is set as <code>DASHBOARD_PASSWORD</code> in the Netlify site's
+      environment variables. See SETUP_GUIDE.md.
+    </p>
+  </div>
+
+  <!-- Main app -->
+  <div id="app" style="display: none;">
+    <div class="tabs">
+      <button class="tab active" data-tab="customers" id="tab-customers">Customers</button>
+      <button class="tab" data-tab="schedule" id="tab-schedule">Schedule</button>
+    </div>
+
+    <!-- CUSTOMERS TAB -->
+    <section id="view-customers">
+      <div class="toolbar">
+        <button class="filter on" data-filter="all">All</button>
+        <button class="filter" data-filter="new">New</button>
+        <button class="filter" data-filter="quoted">Quoted</button>
+        <button class="filter" data-filter="scheduled">Scheduled</button>
+        <button class="filter" data-filter="done">Done</button>
+        <span class="count" id="count">—</span>
+      </div>
+      <div id="jobs"></div>
+    </section>
+
+    <!-- SCHEDULE TAB -->
+    <section id="view-schedule" style="display: none;">
+      <div class="card">
+        <div class="cal-head">
+          <button class="btn btn-ghost" id="cal-prev">‹</button>
+          <h3 id="cal-title">—</h3>
+          <button class="btn btn-ghost" id="cal-next">›</button>
+        </div>
+        <div class="cal-grid" id="cal-dows">
+          <div class="cal-dow">Sun</div><div class="cal-dow">Mon</div><div class="cal-dow">Tue</div>
+          <div class="cal-dow">Wed</div><div class="cal-dow">Thu</div><div class="cal-dow">Fri</div>
+          <div class="cal-dow">Sat</div>
+        </div>
+        <div class="cal-grid" id="cal-grid"></div>
+      </div>
+      <p class="hint">
+        Jobs appear on their <em>confirmed</em> date once you've set one, or on the customer's
+        <em>preferred</em> date otherwise. Tap a job to edit or confirm.
+      </p>
+    </section>
+
+    <div style="margin-top: 16px; text-align: center;">
+      <button class="btn btn-ghost" id="refresh">Refresh</button>
+      <button class="btn btn-ghost" id="logout">Lock</button>
+    </div>
+  </div>
+</div>
+
+<!-- Job details modal -->
+<div class="backdrop" id="modal-backdrop">
+  <div class="modal" id="modal" role="dialog" aria-modal="true">
+    <h3 id="m-title">Job details</h3>
+    <p class="sub" id="m-sub"></p>
+
+    <div class="field">
+      <label>Status</label>
+      <select id="m-status">
+        <option value="new">New</option>
+        <option value="quoted">Quoted</option>
+        <option value="scheduled">Scheduled</option>
+        <option value="done">Done</option>
+      </select>
+    </div>
+
+    <div class="two">
+      <div class="field">
+        <label>Confirmed date</label>
+        <input type="date" id="m-date" />
+      </div>
+      <div class="field">
+        <label>Confirmed time</label>
+        <input type="time" id="m-time" />
+      </div>
+    </div>
+
+    <div class="two">
+      <div class="field">
+        <label>Duration (min)</label>
+        <input type="number" id="m-duration" min="15" step="15" value="60" />
+      </div>
+      <div class="field">
+        <label>Price quoted ($)</label>
+        <input type="number" id="m-price" min="0" step="5" />
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Notes (internal)</label>
+      <textarea id="m-notes" placeholder="Extra notes, follow-ups, etc."></textarea>
+    </div>
+
+    <div class="field">
+      <label><input type="checkbox" id="m-paid" style="width: auto; margin-right: 6px;" /> Paid</label>
+    </div>
+
+    <div class="card" style="background: var(--accent-soft); border-color: transparent;">
+      <div style="font-weight: 700; margin-bottom: 6px;">Quick contact</div>
+      <div id="m-contact" style="display: flex; gap: 10px; flex-wrap: wrap;"></div>
+    </div>
+
+    <div class="row-btns" style="margin-top: 14px;">
+      <button class="btn btn-primary" id="m-save">Save</button>
+      <button class="btn btn-success" id="m-confirm-send">Confirm &amp; send</button>
+      <button class="btn btn-ghost" id="m-close">Close</button>
+    </div>
+    <p class="hint" id="m-hint">
+      "Confirm &amp; send" emails the customer with a calendar invite (.ics) and sends you a matching one so the job appears on your iPhone Calendar.
+    </p>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  // Passphrase is sent in x-auth header; backend compares to DASHBOARD_PASSWORD env var.
+  // We hash-fingerprint locally so we don't leak the plaintext in localStorage either.
+  let AUTH = sessionStorage.getItem('meadows_dash_auth') || null;
+  let JOBS = [];
+  let FILTER = 'all';
+  let CAL_CURSOR = (() => { const d = new Date(); return new Date(d.getFullYear(), d.getMonth(), 1); })();
+  let OPEN_ID = null;
+
+  const $ = (id) => document.getElementById(id);
+
+  // ---------- auth gate ----------
+  async function tryUnlock(pass) {
+    // Test the password by calling list-submissions; 401 => wrong
+    try {
+      const resp = await fetch('/.netlify/functions/list-submissions', { headers: { 'x-auth': pass } });
+      if (resp.status === 401) return { ok: false, reason: 'Wrong passphrase' };
+      if (!resp.ok) {
+        const body = await resp.json().catch(() => ({}));
+        return { ok: false, reason: body.error || ('HTTP ' + resp.status) };
+      }
+      return { ok: true };
+    } catch (e) {
+      return { ok: false, reason: String(e) };
+    }
+  }
+
+  $('unlock').addEventListener('click', async () => {
+    const pass = $('pass').value.trim();
+    if (!pass) return;
+    $('unlock').disabled = true;
+    const res = await tryUnlock(pass);
+    $('unlock').disabled = false;
+    if (!res.ok) {
+      $('auth-msg').textContent = res.reason;
+      $('auth-msg').style.display = 'block';
+      return;
+    }
+    AUTH = pass;
+    sessionStorage.setItem('meadows_dash_auth', pass);
+    showApp();
+  });
+  $('pass').addEventListener('keydown', (e) => { if (e.key === 'Enter') $('unlock').click(); });
+
+  $('logout').addEventListener('click', () => {
+    AUTH = null; sessionStorage.removeItem('meadows_dash_auth');
+    $('app').style.display = 'none';
+    $('auth-gate').style.display = 'block';
+    $('pass').value = '';
+  });
+
+  async function showApp() {
+    $('auth-gate').style.display = 'none';
+    $('app').style.display = 'block';
+    await loadJobs();
+    renderCustomers();
+    renderCalendar();
+  }
+
+  // Try auto-unlock
+  (async () => {
+    if (AUTH) {
+      const res = await tryUnlock(AUTH);
+      if (res.ok) showApp();
+    }
+  })();
+
+  // ---------- tabs ----------
+  document.querySelectorAll('.tab').forEach(t => {
+    t.addEventListener('click', () => {
+      document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+      t.classList.add('active');
+      const which = t.dataset.tab;
+      $('view-customers').style.display = which === 'customers' ? 'block' : 'none';
+      $('view-schedule').style.display = which === 'schedule' ? 'block' : 'none';
+      if (which === 'schedule') renderCalendar();
+    });
+  });
+
+  // ---------- filters ----------
+  document.querySelectorAll('.filter').forEach(f => {
+    f.addEventListener('click', () => {
+      document.querySelectorAll('.filter').forEach(x => x.classList.remove('on'));
+      f.classList.add('on');
+      FILTER = f.dataset.filter;
+      renderCustomers();
+    });
+  });
+
+  $('refresh').addEventListener('click', async () => {
+    await loadJobs();
+    renderCustomers();
+    renderCalendar();
+    toast('Refreshed');
+  });
+
+  // ---------- API ----------
+  async function loadJobs() {
+    const resp = await fetch('/.netlify/functions/list-submissions', { headers: { 'x-auth': AUTH } });
+    if (!resp.ok) {
+      const body = await resp.json().catch(() => ({}));
+      toast('Load failed: ' + (body.error || resp.status), true);
+      JOBS = [];
+      return;
+    }
+    const body = await resp.json();
+    JOBS = (body.jobs || []).sort((a, b) => (b.created_at || '').localeCompare(a.created_at || ''));
+  }
+
+  async function saveJob(id, state) {
+    const resp = await fetch('/.netlify/functions/update-job', {
+      method: 'POST',
+      headers: { 'x-auth': AUTH, 'content-type': 'application/json' },
+      body: JSON.stringify({ id, state }),
+    });
+    if (!resp.ok) {
+      const body = await resp.json().catch(() => ({}));
+      throw new Error(body.error || ('HTTP ' + resp.status));
+    }
+    return (await resp.json()).state;
+  }
+
+  async function confirmAndSend(job) {
+    const resp = await fetch('/.netlify/functions/send-confirmation', {
+      method: 'POST',
+      headers: { 'x-auth': AUTH, 'content-type': 'application/json' },
+      body: JSON.stringify({
+        id: job.id,
+        customer: {
+          name: job.name, email: job.email, phone: job.phone,
+          address: job.address, service: job.service,
+        },
+        confirmedAt: job.state.confirmedAt,
+        durationMinutes: job.state.durationMinutes || 60,
+        notes: job.state.notes || '',
+      }),
+    });
+    const body = await resp.json().catch(() => ({}));
+    return { ok: resp.ok, status: resp.status, body };
+  }
+
+  // ---------- render customers ----------
+  function renderCustomers() {
+    const host = $('jobs');
+    const visible = JOBS.filter(j => FILTER === 'all' ? true : (j.state.status || 'new') === FILTER);
+    $('count').textContent = visible.length + ' of ' + JOBS.length;
+    if (!visible.length) {
+      host.innerHTML = '<div class="empty">No bookings in this filter yet.</div>';
+      return;
+    }
+    host.innerHTML = visible.map(renderJobRow).join('');
+    host.querySelectorAll('[data-open]').forEach(el => {
+      el.addEventListener('click', () => openModal(el.dataset.open));
+    });
+  }
+
+  function renderJobRow(j) {
+    const st = j.state.status || 'new';
+    const when = j.state.confirmedAt
+      ? new Date(j.state.confirmedAt).toLocaleString([], { weekday:'short', month:'short', day:'numeric', hour:'numeric', minute:'2-digit' })
+      : (j.preferred_date ? ('prefers ' + j.preferred_date) : '—');
+    return `
+      <div class="job" data-open="${j.id}">
+        <div>
+          <div class="who">${escapeHtml(j.name || 'Unnamed')}</div>
+          <div class="meta">${escapeHtml(j.service || '?')} · ${escapeHtml(j.address || 'no address')}</div>
+          <div class="meta">${escapeHtml(j.phone || '')} ${j.phone && j.email ? '·' : ''} ${escapeHtml(j.email || '')}</div>
+          <div class="meta">${when}</div>
+        </div>
+        <div><span class="pill ${st}">${st}</span></div>
+      </div>`;
+  }
+
+  // ---------- render calendar ----------
+  function renderCalendar() {
+    const year = CAL_CURSOR.getFullYear();
+    const month = CAL_CURSOR.getMonth();
+    const first = new Date(year, month, 1);
+    const last = new Date(year, month + 1, 0);
+    $('cal-title').textContent = first.toLocaleDateString(undefined, { month: 'long', year: 'numeric' });
+
+    // Build a map from YYYY-MM-DD -> [jobs]
+    const byDay = {};
+    for (const j of JOBS) {
+      const d = j.state.confirmedAt ? j.state.confirmedAt.slice(0, 10) : (j.preferred_date || null);
+      if (!d) continue;
+      (byDay[d] = byDay[d] || []).push(j);
+    }
+
+    const startPad = first.getDay();            // 0=Sun
+    const total = Math.ceil((startPad + last.getDate()) / 7) * 7;
+    const today = new Date(); today.setHours(0,0,0,0);
+    const html = [];
+    for (let i = 0; i < total; i++) {
+      const dayNum = i - startPad + 1;
+      const inMonth = dayNum >= 1 && dayNum <= last.getDate();
+      const d = inMonth
+        ? new Date(year, month, dayNum)
+        : new Date(year, month, dayNum); // JS Date handles overflow fine
+      const ymd = d.toISOString().slice(0, 10);
+      const isToday = d.getTime() === today.getTime();
+      const jobs = byDay[ymd] || [];
+      html.push(`
+        <div class="cal-day ${inMonth ? '' : 'other'} ${isToday ? 'today' : ''}">
+          <div class="cal-num">${d.getDate()}</div>
+          ${jobs.map(j => {
+            const st = j.state.status || 'new';
+            const label = (j.name || '?').split(' ')[0] + ' — ' + (j.service || '?');
+            return `<div class="cal-job ${st}" data-open="${j.id}" title="${escapeAttr(label)}">${escapeHtml(label)}</div>`;
+          }).join('')}
+        </div>`);
+    }
+    $('cal-grid').innerHTML = html.join('');
+    $('cal-grid').querySelectorAll('[data-open]').forEach(el => {
+      el.addEventListener('click', (e) => { e.stopPropagation(); openModal(el.dataset.open); });
+    });
+  }
+
+  $('cal-prev').addEventListener('click', () => {
+    CAL_CURSOR = new Date(CAL_CURSOR.getFullYear(), CAL_CURSOR.getMonth() - 1, 1);
+    renderCalendar();
+  });
+  $('cal-next').addEventListener('click', () => {
+    CAL_CURSOR = new Date(CAL_CURSOR.getFullYear(), CAL_CURSOR.getMonth() + 1, 1);
+    renderCalendar();
+  });
+
+  // ---------- modal ----------
+  function openModal(id) {
+    const job = JOBS.find(j => j.id === id);
+    if (!job) return;
+    OPEN_ID = id;
+    $('m-title').textContent = job.name || 'Unnamed';
+    $('m-sub').textContent = (job.service || '?') + ' · ' + (job.address || 'no address');
+    $('m-status').value = job.state.status || 'new';
+    // Split confirmedAt into date + time (local)
+    if (job.state.confirmedAt) {
+      const d = new Date(job.state.confirmedAt);
+      $('m-date').value = toYmd(d);
+      $('m-time').value = toHm(d);
+    } else {
+      $('m-date').value = job.preferred_date || '';
+      $('m-time').value = '';
+    }
+    $('m-duration').value = job.state.durationMinutes || 60;
+    $('m-price').value = job.state.priceQuoted ?? '';
+    $('m-notes').value = job.state.notes || '';
+    $('m-paid').checked = !!job.state.paid;
+
+    // Quick contact links
+    const contact = [];
+    if (job.phone) {
+      const clean = job.phone.replace(/[^\d+]/g, '');
+      contact.push(`<a class="tap-link" href="tel:${clean}">📞 Call</a>`);
+      contact.push(`<a class="tap-link" href="sms:${clean}">💬 Text</a>`);
+    }
+    if (job.email) contact.push(`<a class="tap-link" href="mailto:${encodeURIComponent(job.email)}">✉️ Email</a>`);
+    if (job.address) {
+      contact.push(`<a class="tap-link" target="_blank" rel="noopener" href="https://maps.apple.com/?q=${encodeURIComponent(job.address)}">🗺️ Map</a>`);
+    }
+    $('m-contact').innerHTML = contact.join('') || '<span style="color:var(--muted);">No contact info</span>';
+
+    $('modal-backdrop').classList.add('open');
+  }
+
+  function closeModal() {
+    $('modal-backdrop').classList.remove('open');
+    OPEN_ID = null;
+  }
+  $('m-close').addEventListener('click', closeModal);
+  $('modal-backdrop').addEventListener('click', (e) => {
+    if (e.target.id === 'modal-backdrop') closeModal();
+  });
+
+  function collectState() {
+    const status = $('m-status').value;
+    const date = $('m-date').value;
+    const time = $('m-time').value;
+    let confirmedAt = null;
+    if (date && time) confirmedAt = new Date(date + 'T' + time).toISOString();
+    else if (date) confirmedAt = new Date(date + 'T09:00').toISOString();
+    return {
+      status,
+      confirmedAt,
+      durationMinutes: Number($('m-duration').value) || 60,
+      priceQuoted: $('m-price').value ? Number($('m-price').value) : null,
+      notes: $('m-notes').value,
+      paid: $('m-paid').checked,
+    };
+  }
+
+  $('m-save').addEventListener('click', async () => {
+    if (!OPEN_ID) return;
+    $('m-save').disabled = true;
+    try {
+      const state = collectState();
+      const saved = await saveJob(OPEN_ID, state);
+      const job = JOBS.find(j => j.id === OPEN_ID);
+      if (job) job.state = saved;
+      renderCustomers(); renderCalendar();
+      toast('Saved');
+      closeModal();
+    } catch (e) {
+      toast('Save failed: ' + e.message, true);
+    } finally {
+      $('m-save').disabled = false;
+    }
+  });
+
+  $('m-confirm-send').addEventListener('click', async () => {
+    if (!OPEN_ID) return;
+    const state = collectState();
+    if (!state.confirmedAt) {
+      toast('Pick a date and time first', true); return;
+    }
+    $('m-confirm-send').disabled = true;
+    try {
+      // Save first so the backend has the latest state
+      const saved = await saveJob(OPEN_ID, { ...state, status: 'scheduled' });
+      const job = JOBS.find(j => j.id === OPEN_ID);
+      if (job) job.state = saved;
+      const result = await confirmAndSend(job);
+      if (result.ok && result.body && result.body.emailSent !== false) {
+        toast('Sent! Customer + you both got calendar invites.');
+      } else if (result.body && result.body.reason) {
+        toast('Marked Scheduled. ' + result.body.reason, true);
+      } else {
+        toast('Send had issues — job still marked Scheduled', true);
+      }
+      renderCustomers(); renderCalendar();
+      closeModal();
+    } catch (e) {
+      toast('Failed: ' + e.message, true);
+    } finally {
+      $('m-confirm-send').disabled = false;
+    }
+  });
+
+  // ---------- helpers ----------
+  function escapeHtml(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+  function escapeAttr(s) { return escapeHtml(s); }
+  function toYmd(d) {
+    const y = d.getFullYear(); const m = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0'); return `${y}-${m}-${day}`;
+  }
+  function toHm(d) {
+    return String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
+  }
+  function toast(msg, isErr) {
+    const t = $('toast');
+    t.textContent = msg;
+    t.classList.toggle('err', !!isErr);
+    t.classList.add('show');
+    clearTimeout(t._hide);
+    t._hide = setTimeout(() => t.classList.remove('show'), 3000);
+  }
+</script>
+
+</body>
+</html>

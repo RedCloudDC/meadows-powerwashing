@@ -1,0 +1,9 @@
+{
+  "name": "meadows-powerwashing",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Meadows Powerwashing — static site + Netlify functions",
+  "dependencies": {
+    "@netlify/blobs": "^8.1.0"
+  }
+}

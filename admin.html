@@ -131,11 +131,11 @@
   <!-- ============ CONFIG NEEDED ============ -->
   <!-- These three constants are set once and never again. See ADMIN_GUIDE.md. -->
   <script>
-    const CLOUD_NAME    = 'YOUR_CLOUD_NAME';     // e.g., "meadows-pw"
+    const CLOUD_NAME    = 'dgeu7z0vg';            // Meadows Powerwashing Cloudinary cloud name
     const UPLOAD_PRESET = 'meadows_unsigned';    // Cloudinary unsigned preset name
-    // SHA-256 hex digest of the admin passphrase. Default hash below is for "change-me-now".
-    // Generate a new one by running the site's /set-passphrase bookmarklet, or paste a hash here.
-    const PASSPHRASE_HASH = 'ccc0b903bce51fb554262d742d0a282e1f8a87d064f1cf44f8ff5148ca4beb42'; // "change-me-now" — change me (see ADMIN_GUIDE.md)
+    // SHA-256 hex digest of the admin passphrase. Hash below is for "MeadowsSummer26!".
+    // To rotate: printf '%s' 'NEW_PASSPHRASE' | shasum -a 256, then paste the hex here.
+    const PASSPHRASE_HASH = '85fef30823dd575d7ce6c1e26723c820fd16a7bcfd9ca79d47c02a44f8429e2d'; // "MeadowsSummer26!"
   </script>
 
   <!-- ============ LOCK SCREEN ============ -->

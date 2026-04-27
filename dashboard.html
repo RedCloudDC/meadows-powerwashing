@@ -399,9 +399,11 @@
 
   // ---------- auth gate ----------
   async function tryUnlock(pass) {
-    // Test the password by calling list-submissions; 401 => wrong
+    // Cheap check via verify-password (only needs DASHBOARD_PASSWORD env var).
+    // list-submissions can stay broken until NETLIFY_API_TOKEN is wired up —
+    // Eoin can still use the Photos tab.
     try {
-      const resp = await fetch('/.netlify/functions/list-submissions', { headers: { 'x-auth': pass } });
+      const resp = await fetch('/.netlify/functions/verify-password', { headers: { 'x-auth': pass } });
       if (resp.status === 401) return { ok: false, reason: 'Wrong passphrase' };
       if (!resp.ok) {
         const body = await resp.json().catch(() => ({}));

@@ -62,28 +62,27 @@ export default async (request) => {
     (customer.email ? `  Email customer: mailto:${customer.email}\n` : "") +
     `\nMeadows Powerwashing`;
 
-  const html = `<!doctype html><html><body style="margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif;background:#f7fafc;color:#0b1220;">
-    <div style="max-width:520px;margin:0 auto;padding:20px;">
-      <h2 style="margin:0 0 8px;color:#0c4a6e;">New booking 🎉</h2>
-      <p style="color:#64748b;margin:0 0 16px;">${escapeHtml(customer.name)} just submitted a quote request.</p>
+  // Plain conversational HTML — no buttons, no tables, no marketing styling.
+  // Looks like a forwarded notification from a real person, which iCloud's spam
+  // classifier weights much more favorably than promotional layouts.
+  const html = `<!doctype html><html><body style="margin:0;padding:16px;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,sans-serif;color:#0b1220;line-height:1.5;font-size:15px;">
+<p>Hi Eoin,</p>
 
-      <table cellpadding="0" cellspacing="0" style="width:100%;background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:16px;margin:0 0 16px;">
-        ${customer.phone ? row("Phone", `<a href="sms:${customer.phone.replace(/[^\d+]/g, "")}" style="color:#0369a1;text-decoration:none;">${escapeHtml(customer.phone)}</a>`) : ""}
-        ${customer.email ? row("Email", `<a href="mailto:${customer.email}" style="color:#0369a1;text-decoration:none;">${escapeHtml(customer.email)}</a>`) : ""}
-        ${customer.address ? row("Address", escapeHtml(customer.address)) : ""}
-        ${customer.preferred_date ? row("Wants", escapeHtml(customer.preferred_date)) : ""}
-        ${customer.notes ? row("Notes", escapeHtml(customer.notes)) : ""}
-      </table>
+<p><strong>${escapeHtml(customer.name)}</strong> just submitted a quote request through the website.</p>
 
-      <a href="${dashboardLink}" style="display:block;background:#0c4a6e;color:#fff;text-align:center;padding:14px 18px;border-radius:999px;font-weight:700;text-decoration:none;font-size:16px;">
-        Open in Dashboard →
-      </a>
+<p>
+${customer.phone ? `Phone: <a href="sms:${customer.phone.replace(/[^\d+]/g, "")}">${escapeHtml(customer.phone)}</a><br/>` : ""}
+${customer.email ? `Email: <a href="mailto:${customer.email}">${escapeHtml(customer.email)}</a><br/>` : ""}
+${customer.address ? `Address: ${escapeHtml(customer.address)}<br/>` : ""}
+${customer.preferred_date ? `Wants: ${escapeHtml(customer.preferred_date)}<br/>` : ""}
+</p>
 
-      <p style="color:#94a3b8;font-size:12px;margin:16px 0 0;text-align:center;">
-        Submission ID: ${escapeHtml(submissionId)} • Meadows Powerwashing
-      </p>
-    </div>
-  </body></html>`;
+${customer.notes ? `<p><em>${escapeHtml(customer.notes)}</em></p>` : ""}
+
+<p>Open the dashboard to send a quote: <a href="${dashboardLink}">${dashboardLink}</a></p>
+
+<p style="color:#64748b;font-size:13px;">— Meadows Powerwashing</p>
+</body></html>`;
 
   if (!resendKey) {
     return json(200, { ok: true, emailSkipped: "RESEND_API_KEY not set" });
@@ -103,6 +102,12 @@ export default async (request) => {
         subject,
         text,
         html,
+        // Hint to mail providers that this is transactional, not bulk marketing.
+        // Counterintuitive but reduces spam classification on iCloud / Gmail.
+        headers: {
+          "List-Unsubscribe": `<mailto:${eoinEmail}?subject=unsubscribe>`,
+          "X-Entity-Ref-ID": submissionId || "meadows-booking",
+        },
       }),
     });
     const body = await r.json().catch(() => ({}));
